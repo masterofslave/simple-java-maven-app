@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 env:
   DOCKER_IMAGE_NAME: java_image
@@ -40,3 +40,20 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+
+  deploy:
+    
+    runs-on: ubuntu:latest
+
+    steps:
+    - name: Deploy to EC2
+      env:
+        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        HOST: "3.76.116.104"
+        USER: "ec2-user"
+      run: |
+        echo "$PRIVATE_KEY" > ec2.pem && sudo chmod 600 ec2.pem
+        ssh -o StrictHostKeyChecking=no -i ec2.pem ${USER}@${HOST} '
+        sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        sudo docker run ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+        '
