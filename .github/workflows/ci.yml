@@ -40,7 +40,10 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest
-
+  
+  deploy:
+    needs: build
+    runs-on: ${{ needs.build.outputs.RUNNER }}
     - name: Deploy to EC2
       env:
         PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
