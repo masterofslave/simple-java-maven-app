@@ -2,7 +2,7 @@ name: CI
 
 env:
   DOCKER_IMAGE_NAME: java_image
-  #DOCKER_REGISTRY: https://www.hub.docker.com/
+  DOCKER_REGISTRY: "gingerous"
 
 on:
   push:
@@ -30,6 +30,15 @@ jobs:
     - name: Login to Docker Registry
       uses: docker/login-action@v3
       with:
-        registry: ${{ env.DOCKER_REGISTRY }}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Landing Page Docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tag: |
+        ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+
