@@ -4,7 +4,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -16,4 +16,9 @@ jobs:
         java-version: 17
 
     - name:
-      run: mvn -B package --file pom.xml
+      - run: mvn -B package --file pom.xml
+      - run: mkdir staging && cp target/1.0-SNAPSHOT.jar staging
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Package
+          path: staging
