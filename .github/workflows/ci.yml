@@ -1,4 +1,9 @@
 name: CI
+
+env:
+  DOCKER_IMAGE_NAME: java_image
+  DOCKER_REGISTRY: hub.docker.com
+
 on:
   push:
     branches: [ master ]
@@ -18,3 +23,13 @@ jobs:
     - name: Bump Version
       id: bump
       uses: nnichols/maven-version-bump-action@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to Docker Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.DOCKER_REGISTRY }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
