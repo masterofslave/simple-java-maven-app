@@ -17,4 +17,5 @@ jobs:
         java-version: 17
 
     - name:
-      run: mvn -B package --file pom.xml
+      run: mvn build-helper:parse-version versions:set \
+ -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}
