@@ -20,7 +20,7 @@ jobs:
 
     - name: upload jar
       run: mkdir staging && cp target/my-app-1.0-SNAPSHOT.jar staging
-      - uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v1
         with:
           name: Package
           path: staging
