@@ -17,7 +17,7 @@ jobs:
 
     - name:
       - run: mvn -B package --file pom.xml
-      - run: mkdir staging && cp target/1.0-SNAPSHOT.jar staging
+      - run: mkdir staging && cp target/my-app-1.0-SNAPSHOT.jar staging
       - uses: actions/upload-artifact@v1
         with:
           name: Package
