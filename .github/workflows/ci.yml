@@ -12,8 +12,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    outputs:
-      RUNNER: ${{ runner.name }}
 
     steps:
     - uses: actions/checkout@v2
@@ -46,7 +44,7 @@ jobs:
   deploy:
     
     needs: build
-    runs-on: ${{ needs.build.outputs.RUNNER }}
+    runs-on: ubuntu-latest
 
     steps:
     - name: Deploy to EC2
