@@ -2,7 +2,7 @@ name: CI
 
 env:
   DOCKER_IMAGE_NAME: java_image
-  DOCKER_REGISTRY: hub.docker.com
+  #DOCKER_REGISTRY: https://www.hub.docker.com/
 
 on:
   push:
